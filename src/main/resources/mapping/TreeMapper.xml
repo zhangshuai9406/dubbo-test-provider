@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.TreeMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.model.Tree" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="text" property="text" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, text, url, pid
+  </sql>
+  
+  <select id="listtree" resultType="java.util.LinkedHashMap"  parameterType="com.jk.model.YuanGong">
+       select tt.* from role_yg ur,tree_role rt ,t_tree tt where ur.roleid=rt.roleid and rt.treeid =tt.id
+       and ur.ygid = #{ygid}
+    </select>
+  
+  <select id="querytree" resultType="com.jk.model.Tree">
+  
+  	select * from t_tree where id =#{id}
+  
+  </select>
+  
+  <insert id="addtree">
+  
+  	insert into t_tree (id,text, pid, url) values(#{id},#{text},#{pid},#{url})
+  
+  </insert>
+  
+  <delete id="deltree">
+  
+  	delete from t_tree where id =#{id}
+  
+  </delete>
+  
+  <delete id="deleteTreeRoleRealtion" parameterType="String">
+   
+     delete from tree_role where roleid=#{roleid}
+     
+   </delete>
+   
+   <insert id="addTreeRoleRelation" parameterType="java.util.List">
+   
+     insert into tree_role (roleid,treeid) values
+     <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.roleid},#{item.treeid})
+     </foreach>
+   
+   </insert>
+   
+   <select id="selectTreeList" resultMap="BaseResultMap"  parameterType="com.jk.model.Tree">
+       select * from t_tree 
+    </select>
+    
+      <select id="queryRoleTree" resultMap="BaseResultMap"  parameterType="String">
+       select * from tree_role rt,t_tree tt where rt.treeid = tt.id and rt.roleid=#{roleid}
+    </select>
+  
+  
+</mapper>

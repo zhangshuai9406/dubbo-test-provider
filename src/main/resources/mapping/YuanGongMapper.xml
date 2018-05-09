@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.YuanGongDao" >
+
+    <select id="getCount"   resultType="int">
+    
+      select count(*)  from  t_yuangong
+    
+    </select>
+    
+    <select id="getList"  resultType="com.jk.model.YuanGong">
+    
+       select * from t_yuangong  limit #{start},#{pageSize}
+       
+    </select>
+	
+	<select id="getResourcesRoleList" parameterType="com.jk.model.YuanGong" resultType="java.util.LinkedHashMap">
+    
+       select *from role_yg ry,t_role tr,tree_role rt,t_tree tt where
+       ry.roleid=tr.roleid and tr.roleid=rt.roleid and rt.treeid=tt.id
+       and ry.ygid =#{ygid}
+
+    </select>
+    
+    <select id="login" resultType="com.jk.model.YuanGong">
+    
+    	select * from t_yuangong where loginname=#{loginname} and pwd = #{pwd}
+    
+    </select>
+    
+ 
+  
+  
+</mapper>

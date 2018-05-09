@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.RoleDao" >
+   <resultMap id="BaseResultMap" type="com.jk.model.Role" >
+    <id column="roleid" property="roleid" jdbcType="INTEGER" />
+    <result column="rolename" property="rolename" jdbcType="VARCHAR" />
+    <result column="rolejianjie" property="rolejianjie" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <select id="roles" resultMap="BaseResultMap">
+    select * from t_role
+  </select>
+  
+  <delete id="deleterole" parameterType="java.lang.String">
+  
+  	delete from role_yg where ygid=#{ygid}
+  
+  </delete>
+  
+   <insert id="updaterole" parameterType="java.util.List">
+  
+  	insert into role_yg (roleid,ygid) values
+     <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.roleid},#{item.ygid})
+     </foreach>
+  
+  </insert>
+  
+  
+  
+
+</mapper>
